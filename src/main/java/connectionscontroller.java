@@ -36,7 +36,8 @@ public class connectionscontroller {
     // @FXML
     // ToggleButton tb0;
 
-
+    @FXML
+    Button submitButton;
 
     String[][] easies = {
         {"FANCY", "LOVE", "RELISH", "SAVOR", "ENJOY"}, // 0
@@ -105,12 +106,22 @@ public class connectionscontroller {
         }
         
     }
+
+    public void submitButtonClicked() {
+        if (numPress != 3){
+            System.out.println("Too few options selected");
+            return;
+        }
+
+
+
+
+    }
     
     private void buttonClick(ActionEvent event) {
         ToggleButton clickedButton = (ToggleButton)event.getSource();
         String idString = clickedButton.getId();
         //System.out.println(idString);
-        
         boolean isButtonBeingDisabled = !clickedButton.isSelected();
         
         System.out.println(numPress);
@@ -127,7 +138,7 @@ public class connectionscontroller {
         // If we already have 4 buttons clicked, don't allow any others to click
         else if (numPress > maxPress) {
             clickedButton.setSelected(false);
-        } 
+        }
 
         //oggleButton.setText(fortunes[randNum.nextInt(fortunes.length)]);
     }
