@@ -67,29 +67,35 @@ public class connectionscontroller {
         {"CARROT" ,"HURTS" ,"JEWEL" ,"OM"}
     };
 
+    int easyIndex = 0;
+    int mediumIndex = 0;
+    int hardIndex = 0;
+    int expertsIndex = 0;
+
 
     // Pick a random set of 4 words for each category
-    Random random = new Random();
-    int easyIndex = random.nextInt(easies.length);
-    int mediumIndex = random.nextInt(mediums.length);
-    int hardIndex = random.nextInt(hards.length);
-    int expertsIndex = random.nextInt(experts.length);
     
     // Map<String,String[]> wordMap = new HashMap<>();
     ArrayList<String> wordsList;
 
+    ArrayList<Integer> clickedIndexes = new ArrayList<>();
 
     int maxPress = 3;
     int numPress = 0;
 
-
     @FXML
     public void initialize() throws FileNotFoundException{
+        System.out.println("INITIALIZE");
+        Random random = new Random();
+        easyIndex = random.nextInt(easies.length);
+        mediumIndex = random.nextInt(mediums.length);
+        hardIndex = random.nextInt(hards.length);
+        expertsIndex = random.nextInt(experts.length);
         wordsList = new ArrayList<>();
         wordsList.addAll(Arrays.asList(easies[easyIndex]));
-        wordsList.addAll(Arrays.asList(mediums[easyIndex]));
-        wordsList.addAll(Arrays.asList(hards[easyIndex]));
-        wordsList.addAll(Arrays.asList(experts[easyIndex]));
+        wordsList.addAll(Arrays.asList(mediums[mediumIndex]));
+        wordsList.addAll(Arrays.asList(hards[hardIndex]));
+        wordsList.addAll(Arrays.asList(experts[expertsIndex]));
         Collections.shuffle(wordsList);
 
         for (int i = 0; i < 16; i++) {
@@ -108,12 +114,75 @@ public class connectionscontroller {
     }
 
     public void submitButtonClicked() {
-        if (numPress != 3){
+        if (numPress != 4){
             System.out.println("Too few options selected");
             return;
         }
+        
+        System.out.println(clickedIndexes);
+        String[] selectedWords = {
+            wordsList.get(clickedIndexes.get(0)),
+            wordsList.get(clickedIndexes.get(1)),
+            wordsList.get(clickedIndexes.get(2)),
+            wordsList.get(clickedIndexes.get(3)),
+        };
+        System.out.println(Arrays.toString(selectedWords));
 
+        boolean isEasy = true;
+        List<String> easieArrayList = Arrays.asList(easies[easyIndex]);
+        System.out.println("Easies: " + easieArrayList.toString());
+        for (int i = 0; i < 4; i++) {
+            String word = selectedWords[i];
+            if (!easieArrayList.contains(word)) {
+                isEasy = false;
+            }
+        }
 
+        if (isEasy == true) {
+            System.out.println("Congrats, you got the easies!");
+        }
+
+        boolean isMedium = true;
+        List<String> mediumArrayList = Arrays.asList(mediums[mediumIndex]);
+        System.out.println("Medium: " + mediumArrayList.toString());
+        for (int i = 0; i < 4; i++) {
+            String word = selectedWords[i];
+            if (!mediumArrayList.contains(word)) {
+                isMedium = false;
+            }
+        }
+
+        if (isMedium == true) {
+            System.out.println("Congrats, you got the mediums!");
+        }
+        
+        boolean isHard = true;
+        List<String> hardArrayList = Arrays.asList(hards[hardIndex]);
+        System.out.println("Hard: " + hardArrayList.toString());
+        for (int i = 0; i < 4; i++) {
+            String word = selectedWords[i];
+            if (!hardArrayList.contains(word)) {
+                isHard = false;
+            }
+        }
+
+        if (isHard == true) {
+            System.out.println("Congrats, you got the Hards!");
+        }
+
+        boolean isExpert = true;
+        List<String> expertArrayList = Arrays.asList(experts[expertsIndex]);
+        System.out.println("Expert: " + expertArrayList.toString());
+        for (int i = 0; i < 4; i++) {
+            String word = selectedWords[i];
+            if (!expertArrayList.contains(word)) {
+                isExpert = false;
+            }
+        }
+
+        if (isExpert == true) {
+            System.out.println("Congrats, you got the Experts!");
+        }
 
 
     }
@@ -121,6 +190,7 @@ public class connectionscontroller {
     private void buttonClick(ActionEvent event) {
         ToggleButton clickedButton = (ToggleButton)event.getSource();
         String idString = clickedButton.getId();
+        Integer index = Integer.parseInt(idString);
         //System.out.println(idString);
         boolean isButtonBeingDisabled = !clickedButton.isSelected();
         
@@ -130,10 +200,12 @@ public class connectionscontroller {
         // If one of the 4 clicked buttons is being turned off, decrement the number of clicked buttons
         if (isButtonBeingDisabled == true){
             numPress -= 1;
+            clickedIndexes.remove(index);
         }
         // Otherwise, increment the number of clicked buttons
         else if (numPress <= 3){
             numPress += 1;
+            clickedIndexes.add(index);
         } 
         // If we already have 4 buttons clicked, don't allow any others to click
         else if (numPress > maxPress) {
