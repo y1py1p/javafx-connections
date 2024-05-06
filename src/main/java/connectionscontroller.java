@@ -23,12 +23,16 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import javafx.scene.Node;
 
 import javafx.fxml.FXML;
 
 public class connectionscontroller {
     @FXML
     Label title;
+
+    @FXML
+    Label lives;
 
     @FXML
     GridPane grid;
@@ -38,6 +42,12 @@ public class connectionscontroller {
 
     @FXML
     Button submitButton;
+
+    @FXML
+    Button shuffleButton;
+
+    @FXML
+    Button replayButton;
 
     String[][] easies = {
         {"FANCY", "LOVE", "RELISH", "SAVOR", "ENJOY"}, // 0
@@ -67,6 +77,12 @@ public class connectionscontroller {
         {"CARROT" ,"HURTS" ,"JEWEL" ,"OM"}
     };
 
+    String[] expertCategories =  {
+        "HORROR",
+        "ASD",
+        ""
+    };
+
     int easyIndex = 0;
     int mediumIndex = 0;
     int hardIndex = 0;
@@ -82,10 +98,14 @@ public class connectionscontroller {
 
     int maxPress = 3;
     int numPress = 0;
+    int numLives = 4;
 
     @FXML
-    public void initialize() throws FileNotFoundException{
+    public void initialize() {
         System.out.println("INITIALIZE");
+        numPress = 0;
+        numLives = 4;
+        lives.setText("Lives: " + Integer.toString(numLives));
         Random random = new Random();
         easyIndex = random.nextInt(easies.length);
         mediumIndex = random.nextInt(mediums.length);
@@ -113,9 +133,57 @@ public class connectionscontroller {
         
     }
 
+    private boolean areWordsIn(String[] selectedWords, List<String> checkWords) {
+        for (int i = 0; i < 4; i ++) {
+            String word = selectedWords[i];
+            if (!checkWords.contains(word)) {
+                return false;
+            }
+        }
+
+        return true;
+
+    }
+
+    public void shuffleButtonClicked() {
+        List<Node> buttons = new ArrayList<>();
+        List<Node> notButtons = new ArrayList<>();
+        for(Node node: grid.getChildren()) {
+            if (node.getId() != null) {
+                buttons.add(node);
+            } else {
+                notButtons.add(node);
+            }
+        }
+
+        Collections.shuffle(buttons);
+        grid.getChildren().clear();
+        grid.getChildren().addAll(notButtons);
+        int gridSize = 4;
+        for (int i = 0; i < buttons.size(); i++) {
+            grid.add(buttons.get(i), i / gridSize, i % gridSize);
+        }
+    }
+
+    public void replayButtonClicked() {
+        List<Node> notButtons = new ArrayList<>();
+        for(Node node: grid.getChildren()) {
+            if (node.getId() == null) {
+                notButtons.add(node);
+            }
+        }
+        grid.getChildren().clear();
+        grid.getChildren().addAll(notButtons);
+        initialize();
+    }
+
     public void submitButtonClicked() {
         if (numPress != 4){
             System.out.println("Too few options selected");
+            return;
+        }
+
+        if (numLives <= 0) {
             return;
         }
         
@@ -128,62 +196,53 @@ public class connectionscontroller {
         };
         System.out.println(Arrays.toString(selectedWords));
 
-        boolean isEasy = true;
-        List<String> easieArrayList = Arrays.asList(easies[easyIndex]);
-        System.out.println("Easies: " + easieArrayList.toString());
-        for (int i = 0; i < 4; i++) {
-            String word = selectedWords[i];
-            if (!easieArrayList.contains(word)) {
-                isEasy = false;
-            }
-        }
-
-        if (isEasy == true) {
-            System.out.println("Congrats, you got the easies!");
-        }
-
-        boolean isMedium = true;
-        List<String> mediumArrayList = Arrays.asList(mediums[mediumIndex]);
-        System.out.println("Medium: " + mediumArrayList.toString());
-        for (int i = 0; i < 4; i++) {
-            String word = selectedWords[i];
-            if (!mediumArrayList.contains(word)) {
-                isMedium = false;
-            }
-        }
-
-        if (isMedium == true) {
-            System.out.println("Congrats, you got the mediums!");
-        }
-        
-        boolean isHard = true;
-        List<String> hardArrayList = Arrays.asList(hards[hardIndex]);
-        System.out.println("Hard: " + hardArrayList.toString());
-        for (int i = 0; i < 4; i++) {
-            String word = selectedWords[i];
-            if (!hardArrayList.contains(word)) {
-                isHard = false;
-            }
-        }
-
-        if (isHard == true) {
+        String category = null;
+        if (this.areWordsIn(selectedWords, Arrays.asList(easies[easyIndex]))) {
+            System.out.println("Congrats, you got the Easies!");
+            
+        } else if (this.areWordsIn(selectedWords, Arrays.asList(mediums[mediumIndex]))) {
+            System.out.println("Congrats, you got the Mediums!");
+        } else if (this.areWordsIn(selectedWords, Arrays.asList(hards[hardIndex]))) {
             System.out.println("Congrats, you got the Hards!");
+           // category = hardCategories[hardIndex];
+        } else if (this.areWordsIn(selectedWords, Arrays.asList(experts[expertsIndex]))) {
+            System.out.println("Congrats, you got the Expers!");
+           // category = expertCategories[expertsIndex];
         }
 
-        boolean isExpert = true;
-        List<String> expertArrayList = Arrays.asList(experts[expertsIndex]);
-        System.out.println("Expert: " + expertArrayList.toString());
-        for (int i = 0; i < 4; i++) {
-            String word = selectedWords[i];
-            if (!expertArrayList.contains(word)) {
-                isExpert = false;
+        if (
+            this.areWordsIn(selectedWords, Arrays.asList(easies[easyIndex])) || 
+            this.areWordsIn(selectedWords, Arrays.asList(mediums[mediumIndex])) ||
+            this.areWordsIn(selectedWords, Arrays.asList(hards[hardIndex])) ||
+            this.areWordsIn(selectedWords, Arrays.asList(experts[expertsIndex]))
+        ) {
+            // Disable the buttons that are selected
+            for(Node button: grid.getChildren()) {
+                String idStr = button.getId();
+                if (idStr != null) {
+                    Integer id = Integer.parseInt(button.getId());
+                    if (clickedIndexes.contains(id)) {
+                        button.setDisable(true);
+                    }
+                }
+            } 
+
+            numPress = 0;
+           // categoryLabel.setValue(category);
+
+        } else {
+            numLives -= 1;
+            lives.setText("Lives: " + Integer.toString(numLives));
+            if (numLives <= 0) {
+                System.out.println("GAME OVER");
+                for(Node button: grid.getChildren()) {
+                    String idStr = button.getId();
+                    if (idStr != null) {
+                        button.setDisable(true);
+                    }
+                } 
             }
         }
-
-        if (isExpert == true) {
-            System.out.println("Congrats, you got the Experts!");
-        }
-
 
     }
     
