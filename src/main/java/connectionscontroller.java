@@ -7,6 +7,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Random;
 
+import javax.swing.plaf.TreeUI;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
@@ -34,8 +36,6 @@ public class connectionscontroller {
     // @FXML
     // ToggleButton tb0;
 
-    @FXML
-    Button button;
 
 
     String[][] easies = {
@@ -73,10 +73,14 @@ public class connectionscontroller {
     int mediumIndex = random.nextInt(mediums.length);
     int hardIndex = random.nextInt(hards.length);
     int expertsIndex = random.nextInt(experts.length);
-
     
     // Map<String,String[]> wordMap = new HashMap<>();
     ArrayList<String> wordsList;
+
+
+    int maxPress = 3;
+    int numPress = 0;
+
 
     @FXML
     public void initialize() throws FileNotFoundException{
@@ -85,7 +89,6 @@ public class connectionscontroller {
         wordsList.addAll(Arrays.asList(mediums[easyIndex]));
         wordsList.addAll(Arrays.asList(hards[easyIndex]));
         wordsList.addAll(Arrays.asList(experts[easyIndex]));
-
         Collections.shuffle(wordsList);
 
         for (int i = 0; i < 16; i++) {
@@ -103,10 +106,28 @@ public class connectionscontroller {
         
     }
     
-    private void buttonClick(ActionEvent event){
+    private void buttonClick(ActionEvent event) {
         ToggleButton clickedButton = (ToggleButton)event.getSource();
         String idString = clickedButton.getId();
-        System.out.println(idString);
+        //System.out.println(idString);
+        
+        boolean isButtonBeingDisabled = !clickedButton.isSelected();
+        
+        System.out.println(numPress);
+        System.out.println(isButtonBeingDisabled);
+    
+        // If one of the 4 clicked buttons is being turned off, decrement the number of clicked buttons
+        if (isButtonBeingDisabled == true){
+            numPress -= 1;
+        }
+        // Otherwise, increment the number of clicked buttons
+        else if (numPress <= 3){
+            numPress += 1;
+        } 
+        // If we already have 4 buttons clicked, don't allow any others to click
+        else if (numPress > maxPress) {
+            clickedButton.setSelected(false);
+        } 
 
         //oggleButton.setText(fortunes[randNum.nextInt(fortunes.length)]);
     }
