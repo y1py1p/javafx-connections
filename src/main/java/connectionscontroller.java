@@ -44,17 +44,17 @@ public class connectionscontroller {
             
             GridPane.setRowIndex(button, row);
             GridPane.setColumnIndex(button, col);
+            button.setOnAction(this::buttonClick);
             grid.getChildren().add(button);
         }
+        
+    }
+    
+    private void buttonClick(ActionEvent event){
+        System.out.println("Hi");
+        //oggleButton.setText(fortunes[randNum.nextInt(fortunes.length)]);
     }
 
-    @FXML
-    private void buttonClicked(){
-        // e.getButton();
-        System.out.println("hi");
-        // System.out.println(e.getButton());
-        // Random randNum = new Random();
-        // fortunetxt.setText(fortunes[randNum.nextInt(fortunes.length)]);
-    }
+   
 
 }
