@@ -1,4 +1,10 @@
 import java.io.FileNotFoundException;
+import java.util.Map;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Random;
 
 import javafx.application.Application;
@@ -32,13 +38,60 @@ public class connectionscontroller {
     Button button;
 
 
+    String[][] easies = {
+        {"FANCY", "LOVE", "RELISH", "SAVOR", "ENJOY"}, // 0
+        {"BAR" ,"CLUB" ,"DISCO" ,"LOUNGE"},
+        {"BUTTON" ,"FLY" ,"POCKET" ,"RIVET"},
+        {"ACE" ,"CRACKERJACK" ,"EXPERT" ,"HOTSHOT"}
+    };
 
-    String[] fortunes = {"miaau", "sd", "sdf"};
+    String[][] mediums = {
+        {"EGG" ,"EVERYTHING" ,"PLAIN" ,"POPPY"},
+        {"LIKE" ,"LITERALLY" ,"UM" ,"WELL"},
+        {"DITCH" ,"DROP" ,"LOSE" ,"SHED"},
+        {"CHOCK" ,"JACK" ,"TIRE" ,"WRENCH"}
+    };
+
+    String[][] hards = {
+        {"ACT" ,"DIRECT" ,"PRODUCE" ,"WRITE"},
+        {"CYLINDER" ,"PIN" ,"SPRING" ,"TUMBLER"},
+        {"FATHOM" ,"FOOT" ,"LEAGUE" ,"YARD"},
+        {"GLADIATOR" ,"HER" ,"JOKER" ,"SIGNS"}
+    };
+
+    String[][] experts = {
+        {"POPCORN" ,"RAPTURE" ,"ROCKETRY" ,"SOULMATE"},
+        {"ANIMAL" ,"DOOR" ,"KINK" ,"SUPREME"},
+        {"BAKE" ,"CLEARANCE" ,"GARAGE" ,"SAMPLE"},
+        {"CARROT" ,"HURTS" ,"JEWEL" ,"OM"}
+    };
+
+
+    // Pick a random set of 4 words for each category
+    Random random = new Random();
+    int easyIndex = random.nextInt(easies.length);
+    int mediumIndex = random.nextInt(mediums.length);
+    int hardIndex = random.nextInt(hards.length);
+    int expertsIndex = random.nextInt(experts.length);
+
+    
+    // Map<String,String[]> wordMap = new HashMap<>();
+    ArrayList<String> wordsList;
 
     @FXML
     public void initialize() throws FileNotFoundException{
+        wordsList = new ArrayList<>();
+        wordsList.addAll(Arrays.asList(easies[easyIndex]));
+        wordsList.addAll(Arrays.asList(mediums[easyIndex]));
+        wordsList.addAll(Arrays.asList(hards[easyIndex]));
+        wordsList.addAll(Arrays.asList(experts[easyIndex]));
+
+        Collections.shuffle(wordsList);
+
         for (int i = 0; i < 16; i++) {
-            ToggleButton button = new ToggleButton("Button " + (i + 1));
+            String word = wordsList.get(i);
+            ToggleButton button = new ToggleButton(word);
+            button.setId(Integer.toString(i));
             int row = i % 4;
             int col = i / 4;
             
@@ -51,7 +104,10 @@ public class connectionscontroller {
     }
     
     private void buttonClick(ActionEvent event){
-        System.out.println("Hi");
+        ToggleButton clickedButton = (ToggleButton)event.getSource();
+        String idString = clickedButton.getId();
+        System.out.println(idString);
+
         //oggleButton.setText(fortunes[randNum.nextInt(fortunes.length)]);
     }
 
