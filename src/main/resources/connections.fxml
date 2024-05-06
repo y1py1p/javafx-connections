@@ -37,15 +37,15 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<VBox prefHeight="400.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="connectionscontroller">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -72,22 +72,7 @@
                   <RowConstraints maxHeight="29.59998168945313" minHeight="8.00000610351563" prefHeight="28.00000610351563" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <Text fx:id="txt00" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" textAlignment="JUSTIFY" />
-                  <Text fx:id="txt01" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" />
-                  <Text fx:id="txt02" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" />
-                  <Text fx:id="txt03" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="3" />
-                  <Text fx:id="txt10" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.rowIndex="1" />
-                  <Text fx:id="txt11" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Text fx:id="txt12" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <Text fx:id="txt130" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-                  <Text fx:id="txt20" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.rowIndex="2" />
-                  <Text fx:id="txt21" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <Text fx:id="txt22" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <Text fx:id="txt23" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-                  <Text fx:id="txt30" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.rowIndex="3" />
-                  <Text fx:id="txt31" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <Text fx:id="txt32" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="2" GridPane.rowIndex="3" />
-                  <Text fx:id="txt33" strokeType="OUTSIDE" strokeWidth="0.0" text="Text" GridPane.columnIndex="3" GridPane.rowIndex="3" />
+                  <ToggleButton fx:id="tb0" mnemonicParsing="false" onMouseClicked="#buttonClicked" text="ToggleButton" />
                </children>
             </GridPane>
             <Label fx:id="title" layoutX="262.0" layoutY="65.0" text="Connections" textAlignment="CENTER" textFill="#e56cb5">
@@ -95,7 +80,7 @@
                   <Font name="Arial Black" size="12.0" />
                </font>
             </Label>
-            <Button layoutX="265.0" layoutY="93.0" mnemonicParsing="false" text="Start Game" textFill="#dc4879" />
+            <Button fx:id="button" layoutX="265.0" layoutY="93.0" mnemonicParsing="false" text="Start Game" textFill="#dc4879" />
       </children>
     </AnchorPane>
   </children>

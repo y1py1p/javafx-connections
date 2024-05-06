@@ -2,7 +2,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.openjfx</groupId>
-  <artifactId>connectionscontroller</artifactId>
+  <artifactId>App</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>demo</name>
@@ -37,7 +37,7 @@
         <version>${javafx.maven.plugin.version}</version>
         <configuration>
           <!-- Replace HelloFX with the class name of the main class you wish to run -->
-          <mainClass>connectionscontroller</mainClass>
+          <mainClass>App</mainClass>
         </configuration>
       </plugin>
     </plugins>
