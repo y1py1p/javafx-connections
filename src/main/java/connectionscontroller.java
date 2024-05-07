@@ -27,7 +27,12 @@ import javafx.scene.Node;
 
 import javafx.fxml.FXML;
 
+/**
+ * This class is the controller for the connections game
+ */
 public class connectionscontroller {
+    
+
     @FXML
     Label title;
 
@@ -36,9 +41,6 @@ public class connectionscontroller {
 
     @FXML
     GridPane grid;
-
-    // @FXML
-    // ToggleButton tb0;
 
     @FXML
     Button submitButton;
@@ -60,7 +62,7 @@ public class connectionscontroller {
     Label Hard;
     @FXML
     Label Expert;
-
+// Strings of Possible Game Answers
     String[][] easies = {
         {"FANCY", "LOVE", "RELISH", "SAVOR"}, // 0
         {"BAR" ,"CLUB" ,"DISCO" ,"LOUNGE"},
@@ -88,6 +90,7 @@ public class connectionscontroller {
         {"BAKE" ,"CLEARANCE" ,"GARAGE" ,"SAMPLE"},
         {"CARROT" ,"HURTS" ,"JEWEL" ,"OM"}
     };
+    //Answers
     String[] easyCategories =  {
         "ENJOY: FANCY ,LOVE ,RELISH ,SAVOR",
         "NIGHTSPOTS: BAR ,CLUB ,DISCO ,LOUNGE",
@@ -112,6 +115,8 @@ public class connectionscontroller {
         "UNITS OF LENGTH: FATHOM ,FOOT ,LEAGUE ,YARD",
         "JOAQUIN PHOENIX MOVIES: GLADIATOR ,HER ,JOKER ,SIGNS"
     };
+
+    //preinit the gamestatus and list num
     int easyIndex = 0;
     int mediumIndex = 0;
     int hardIndex = 0;
@@ -124,7 +129,6 @@ public class connectionscontroller {
 
     // Pick a random set of 4 words for each category
     
-    // Map<String,String[]> wordMap = new HashMap<>();
     ArrayList<String> wordsList;
 
     ArrayList<Integer> clickedIndexes = new ArrayList<>();
@@ -133,10 +137,14 @@ public class connectionscontroller {
     int numPress = 0;
     int numLives = 4;
 
+    /** 
+     * Initialize the game state
+     */
     @FXML
     public void initialize() {
         numPress = 0;
         numLives = 4;
+        // Set text to invisible
         clickedIndexes.clear();
         lives.setText("Lives: " + Integer.toString(numLives));
         gamestatus.setText(null);
@@ -150,6 +158,7 @@ public class connectionscontroller {
         hardIndex = random.nextInt(hards.length);
         expertsIndex = random.nextInt(experts.length);
         wordsList = new ArrayList<>();
+        //  Add the categorys to the array list
         wordsList.addAll(Arrays.asList(easies[easyIndex]));
         wordsList.addAll(Arrays.asList(mediums[mediumIndex]));
         wordsList.addAll(Arrays.asList(hards[hardIndex]));
@@ -159,7 +168,7 @@ public class connectionscontroller {
         medW = false;
         hardW = false;
         expW = false;
-
+        // Print out the toggle buttons in a list onto the grid
         for (int i = 0; i < 16; i++) {
             String word = wordsList.get(i);
             ToggleButton button = new ToggleButton(word);
@@ -175,6 +184,12 @@ public class connectionscontroller {
         
     }
 
+    /** 
+     * Check if the selected words are in the list of words
+     * @param selectedWords
+     * @param checkWords
+     * @return boolean
+     */
     private boolean areWordsIn(String[] selectedWords, List<String> checkWords) {
         for (int i = 0; i < 4; i ++) {
             String word = selectedWords[i];
@@ -187,6 +202,9 @@ public class connectionscontroller {
 
     }
 
+    /** 
+     * Shuffle the buttons in the grid
+     */
     public void shuffleButtonClicked() {
         List<Node> buttons = new ArrayList<>();
         List<Node> notButtons = new ArrayList<>();
@@ -207,6 +225,9 @@ public class connectionscontroller {
         }
     }
 
+    /** 
+     * Logic for the replay button
+     */
     public void replayButtonClicked() {
         List<Node> notButtons = new ArrayList<>();
         for(Node node: grid.getChildren()) {
@@ -219,6 +240,9 @@ public class connectionscontroller {
         initialize();
     }
 
+    /** 
+     * Logic for the submit button
+     */
     public void submitButtonClicked() {
         if (numPress != 4){
             return;
@@ -236,25 +260,22 @@ public class connectionscontroller {
             wordsList.get(clickedIndexes.get(3)),
         };
 
-
+// Checks if subbmitted words match answers
         String category = null;
         if (this.areWordsIn(selectedWords, Arrays.asList(easies[easyIndex]))) {
             easyW = true;
             Easy.setText("Easy : " + easyCategories[easyIndex]);
         } else if (this.areWordsIn(selectedWords, Arrays.asList(mediums[mediumIndex]))) {
-          medW = true;
-          Medium.setText("Medium :" + mediumCategories[mediumIndex]);
+            medW = true;
+            Medium.setText("Medium :" + mediumCategories[mediumIndex]);
         } else if (this.areWordsIn(selectedWords, Arrays.asList(hards[hardIndex]))) {
-           hardW= true;
-           // category = hardCategories[hardIndex];
-           Hard.setText("Hard : " + hardCategories[hardIndex]);
+            hardW= true;
+            Hard.setText("Hard : " + hardCategories[hardIndex]);
         } else if (this.areWordsIn(selectedWords, Arrays.asList(experts[expertsIndex]))) {
-          expW = true;
-          Expert.setText("Expert : " + expertCategories[expertsIndex]);
-
-           // category = expertCategories[expertsIndex];
+            expW = true;
+            Expert.setText("Expert : " + expertCategories[expertsIndex]);
         }
-
+// Checks if all categories are correct
         if ((expW) && (hardW) && (medW) && (easyW)){
             gamestatus.setText("You Won!");
         }
@@ -277,8 +298,7 @@ public class connectionscontroller {
             } 
             clickedIndexes.clear();
             numPress = 0;
-           // categoryLabel.setValue(category);
-
+// Decreases lives
         } else {
             numLives -= 1;
             lives.setText("Lives: " + Integer.toString(numLives));
@@ -295,13 +315,17 @@ public class connectionscontroller {
 
     }
     
+    
+    /** 
+     * Logic for the button click
+     * @param event
+     */
     private void buttonClick(ActionEvent event) {
         ToggleButton clickedButton = (ToggleButton)event.getSource();
         String idString = clickedButton.getId();
         Integer index = Integer.parseInt(idString);
         boolean isButtonBeingDisabled = !clickedButton.isSelected();
         
-    
         // If one of the 4 clicked buttons is being turned off, decrement the number of clicked buttons
         if (isButtonBeingDisabled == true){
             numPress -= 1;
@@ -316,10 +340,5 @@ public class connectionscontroller {
         else if (numPress > maxPress) {
             clickedButton.setSelected(false);
         }
-
-        //oggleButton.setText(fortunes[randNum.nextInt(fortunes.length)]);
     }
-
-   
-
 }
