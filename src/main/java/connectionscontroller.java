@@ -62,6 +62,8 @@ public class connectionscontroller {
     Label Hard;
     @FXML
     Label Expert;
+    @FXML
+    Label Instructions;
 // Strings of Possible Game Answers
     String[][] easies = {
         {"FANCY", "LOVE", "RELISH", "SAVOR"}, // 0

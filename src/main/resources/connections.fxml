@@ -72,17 +72,17 @@
                 <RowConstraints maxHeight="29.59998168945313" minHeight="8.00000610351563" prefHeight="28.00000610351563" vgrow="SOMETIMES" />
               </rowConstraints>
             </GridPane>
-            <Label fx:id="title" layoutX="262.0" layoutY="45.0" text="Connections" textAlignment="CENTER" textFill="#e56cb5">
+            <Label fx:id="title" layoutX="260.0" layoutY="45.0" text="Connections" textAlignment="CENTER" textFill="#e56cb5">
                <font>
                   <Font name="Arial Black" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="lives" layoutX="262.0" layoutY="65.0" text="" textAlignment="CENTER" textFill="#e56cb5">
+            <Label fx:id="lives" layoutX="275.0" layoutY="65.0" text="" textAlignment="CENTER" textFill="#e56cb5">
                <font>
                   <Font name="Arial Black" size="12.0" />
                </font>
             </Label>
-            <Label fx:id="gamestatus" layoutX="202.0" layoutY="20.0" text="" textAlignment="CENTER" textFill="#e56cb5">
+            <Label fx:id="gamestatus" layoutX="250.0" layoutY="20.0" text="" textAlignment="CENTER" textFill="#e56cb5">
                <font>
                   <Font name="Arial Black" size="20.0" />
                </font>
@@ -92,24 +92,29 @@
                   <Font name="Arial Black" size="10.0" />
                </font>
             </Label>
-            <Label fx:id="Medium" layoutX="20.0" layoutY="330.0" text="" textAlignment="CENTER" textFill="#e56cb5">
+            <Label fx:id="Medium" layoutX="20.0" layoutY="320.0" text="" textAlignment="CENTER" textFill="#e56cb5">
                <font>
                   <Font name="Arial Black" size="10.0" />
                </font>
             </Label>
-            <Label fx:id="Hard" layoutX="20.0" layoutY="360.0" text="" textAlignment="CENTER" textFill="#e56cb5">
+            <Label fx:id="Hard" layoutX="20.0" layoutY="340.0" text="" textAlignment="CENTER" textFill="#e56cb5">
                <font>
                   <Font name="Arial Black" size="10.0" />
                </font>
             </Label>
-            <Label fx:id="Expert" layoutX="20.0" layoutY="390.0" text="" textAlignment="CENTER" textFill="#e56cb5">
+            <Label fx:id="Expert" layoutX="20.0" layoutY="360.0" text="" textAlignment="CENTER" textFill="#e56cb5">
                <font>
                   <Font name="Arial Black" size="10.0" />
                </font>
             </Label>
-             <Button fx:id="replayButton" layoutX="285.0" layoutY="253.0" mnemonicParsing="false" text="Replay" onMouseClicked="#replayButtonClicked" textFill="#dc4879" />
-            <Button fx:id="shuffleButton" layoutX="225.0" layoutY="253.0" mnemonicParsing="false" text="Shuffle" onMouseClicked="#shuffleButtonClicked" textFill="#dc4879" />
-            <Button fx:id="submitButton" layoutX="265.0" layoutY="93.0" mnemonicParsing="false" text="Submit" onMouseClicked="#submitButtonClicked" textFill="#dc4879" />
+            <Label fx:id="Instructions" layoutX="240.0" layoutY="380.0" text="Make 4 groups of 4!" textAlignment="CENTER" textFill="#e56cb5">
+               <font>
+                  <Font name="Arial Black" size="10.0" />
+               </font>
+            </Label>
+             <Button fx:id="replayButton" layoutX="315.0" layoutY="253.0" mnemonicParsing="false" text="Replay" onMouseClicked="#replayButtonClicked" textFill="#dc4879" />
+            <Button fx:id="shuffleButton" layoutX="245.0" layoutY="253.0" mnemonicParsing="false" text="Shuffle" onMouseClicked="#shuffleButtonClicked" textFill="#dc4879" />
+            <Button fx:id="submitButton" layoutX="275.0" layoutY="93.0" mnemonicParsing="false" text="Submit" onMouseClicked="#submitButtonClicked" textFill="#dc4879" />
       </children>
     </AnchorPane>
   </children>
