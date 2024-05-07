@@ -52,6 +52,15 @@ public class connectionscontroller {
     @FXML
     Label gamestatus;
 
+    @FXML
+    Label Easy;
+    @FXML
+    Label Medium;
+    @FXML
+    Label Hard;
+    @FXML
+    Label Expert;
+
     String[][] easies = {
         {"FANCY", "LOVE", "RELISH", "SAVOR"}, // 0
         {"BAR" ,"CLUB" ,"DISCO" ,"LOUNGE"},
@@ -79,11 +88,29 @@ public class connectionscontroller {
         {"BAKE" ,"CLEARANCE" ,"GARAGE" ,"SAMPLE"},
         {"CARROT" ,"HURTS" ,"JEWEL" ,"OM"}
     };
-
+    String[] easyCategories =  {
+        "ENJOY: FANCY ,LOVE ,RELISH ,SAVOR",
+        "NIGHTSPOTS: BAR ,CLUB ,DISCO ,LOUNGE",
+        "FEATURES ON A PAIR OF JEANS: BUTTON ,FLY ,POCKET ,RIVET",
+        "HIGHLY SKILLED: ACE ,CRACKERJACK ,EXPERT ,HOTSHOT"
+    };
+    String[] mediumCategories =  {
+        "KINDS OF BAGELS: EGG ,EVERYTHING ,PLAIN ,POPPY",
+        "FILLER WORDS: LIKE ,LITERALLY ,UM ,WELL",
+        "CAST OFF: DITCH ,DROP ,LOSE ,SHED",
+        "USED TO FIX A FLAT: CHOCK ,JACK ,TIRE ,WRENCH"
+    };
     String[] expertCategories =  {
-        "HORROR",
-        "ASD",
-        ""
+        "WORDS STARTING WITH MUSIC GENRES: POPCORN ,RAPTURE ,ROCKETRY ,SOULMATE",
+        "MEMBER OF A ’60S BAND: ANIMAL ,DOOR ,KINK ,SUPREME",
+        "___ SALE: BAKE ,CLEARANCE ,GARAGE ,SAMPLE",
+        "HOMOPHONES OF UNITS OF MEASURE: CARROT ,HURTS ,JEWEL ,OM"
+    };
+    String[] hardCategories =  {
+        "CONTRIBUTE TO A MOVIE: ACT ,DIRECT ,PRODUCE ,WRITE",
+        "COMPONENTS OF A LOCK: CYLINDER ,PIN ,SPRING ,TUMBLER",
+        "UNITS OF LENGTH: FATHOM ,FOOT ,LEAGUE ,YARD",
+        "JOAQUIN PHOENIX MOVIES: GLADIATOR ,HER ,JOKER ,SIGNS"
     };
     int easyIndex = 0;
     int mediumIndex = 0;
@@ -93,6 +120,7 @@ public class connectionscontroller {
     boolean medW;
     boolean hardW;
     boolean expW;
+    
 
     // Pick a random set of 4 words for each category
     
@@ -107,11 +135,15 @@ public class connectionscontroller {
 
     @FXML
     public void initialize() {
-        System.out.println("INITIALIZE");
         numPress = 0;
         numLives = 4;
+        clickedIndexes.clear();
         lives.setText("Lives: " + Integer.toString(numLives));
         gamestatus.setText(null);
+        Easy.setText(null);
+        Medium.setText(null);
+        Hard.setText(null);
+        Expert.setText(null);
         Random random = new Random();
         easyIndex = random.nextInt(easies.length);
         mediumIndex = random.nextInt(mediums.length);
@@ -123,6 +155,10 @@ public class connectionscontroller {
         wordsList.addAll(Arrays.asList(hards[hardIndex]));
         wordsList.addAll(Arrays.asList(experts[expertsIndex]));
         Collections.shuffle(wordsList);
+        easyW = false;
+        medW = false;
+        hardW = false;
+        expW = false;
 
         for (int i = 0; i < 16; i++) {
             String word = wordsList.get(i);
@@ -185,7 +221,6 @@ public class connectionscontroller {
 
     public void submitButtonClicked() {
         if (numPress != 4){
-            System.out.println("Too few options selected");
             return;
         }
 
@@ -193,33 +228,33 @@ public class connectionscontroller {
             return;
         }
         
-        System.out.println(clickedIndexes);
+
         String[] selectedWords = {
             wordsList.get(clickedIndexes.get(0)),
             wordsList.get(clickedIndexes.get(1)),
             wordsList.get(clickedIndexes.get(2)),
             wordsList.get(clickedIndexes.get(3)),
         };
-        System.out.println(Arrays.toString(selectedWords));
 
 
         String category = null;
         if (this.areWordsIn(selectedWords, Arrays.asList(easies[easyIndex]))) {
-            System.out.println("Congrats, you got the Easies!");
             easyW = true;
+            Easy.setText("Easy : " + easyCategories[easyIndex]);
         } else if (this.areWordsIn(selectedWords, Arrays.asList(mediums[mediumIndex]))) {
-            System.out.println("Congrats, you got the Mediums!");
           medW = true;
+          Medium.setText("Medium :" + mediumCategories[mediumIndex]);
         } else if (this.areWordsIn(selectedWords, Arrays.asList(hards[hardIndex]))) {
-            System.out.println("Congrats, you got the Hards!");
            hardW= true;
            // category = hardCategories[hardIndex];
+           Hard.setText("Hard : " + hardCategories[hardIndex]);
         } else if (this.areWordsIn(selectedWords, Arrays.asList(experts[expertsIndex]))) {
-            System.out.println("Congrats, you got the Expers!");
           expW = true;
+          Expert.setText("Expert : " + expertCategories[expertsIndex]);
 
            // category = expertCategories[expertsIndex];
         }
+
         if ((expW) && (hardW) && (medW) && (easyW)){
             gamestatus.setText("You Won!");
         }
@@ -264,11 +299,8 @@ public class connectionscontroller {
         ToggleButton clickedButton = (ToggleButton)event.getSource();
         String idString = clickedButton.getId();
         Integer index = Integer.parseInt(idString);
-        //System.out.println(idString);
         boolean isButtonBeingDisabled = !clickedButton.isSelected();
         
-        System.out.println(numPress);
-        System.out.println(isButtonBeingDisabled);
     
         // If one of the 4 clicked buttons is being turned off, decrement the number of clicked buttons
         if (isButtonBeingDisabled == true){
