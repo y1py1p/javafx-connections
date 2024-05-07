@@ -4,13 +4,14 @@
 
 ## Mini Reflection
 
-Name: 
+Name: Yana Petcheva
 
-I think my program is a level XXX because ...
+I think my program is a level 4+ because it used many advanced features of JavaFX and Java. I used things I hadn't used before or seen in class/on the videos such as toggleButtons, more event handling, Array lists and other complex data structures. It also checks off all the required boxes (except the git commits, which are meaningful but not regular but thats communication), but otherwise its very clean, efficent, doesn't repeat and its divided among multiple classes. In all it checks off all required L4 boxes. Its user friendly and easy to understand. I believe this program is a perfect personal rendition of NYT connections :D!
 
 The extra features I included in my program are: 
-
-<briefly describe your features in dot-jot form>
+- Array Lists
+- Very efficent code
+- Cute pink style
 
 
 
