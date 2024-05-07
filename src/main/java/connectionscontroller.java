@@ -49,8 +49,11 @@ public class connectionscontroller {
     @FXML
     Button replayButton;
 
+    @FXML
+    Label gamestatus;
+
     String[][] easies = {
-        {"FANCY", "LOVE", "RELISH", "SAVOR", "ENJOY"}, // 0
+        {"FANCY", "LOVE", "RELISH", "SAVOR"}, // 0
         {"BAR" ,"CLUB" ,"DISCO" ,"LOUNGE"},
         {"BUTTON" ,"FLY" ,"POCKET" ,"RIVET"},
         {"ACE" ,"CRACKERJACK" ,"EXPERT" ,"HOTSHOT"}
@@ -82,12 +85,14 @@ public class connectionscontroller {
         "ASD",
         ""
     };
-
     int easyIndex = 0;
     int mediumIndex = 0;
     int hardIndex = 0;
     int expertsIndex = 0;
-
+    boolean easyW;
+    boolean medW;
+    boolean hardW;
+    boolean expW;
 
     // Pick a random set of 4 words for each category
     
@@ -106,6 +111,7 @@ public class connectionscontroller {
         numPress = 0;
         numLives = 4;
         lives.setText("Lives: " + Integer.toString(numLives));
+        gamestatus.setText(null);
         Random random = new Random();
         easyIndex = random.nextInt(easies.length);
         mediumIndex = random.nextInt(mediums.length);
@@ -196,26 +202,34 @@ public class connectionscontroller {
         };
         System.out.println(Arrays.toString(selectedWords));
 
+
         String category = null;
         if (this.areWordsIn(selectedWords, Arrays.asList(easies[easyIndex]))) {
             System.out.println("Congrats, you got the Easies!");
-            
+            easyW = true;
         } else if (this.areWordsIn(selectedWords, Arrays.asList(mediums[mediumIndex]))) {
             System.out.println("Congrats, you got the Mediums!");
+          medW = true;
         } else if (this.areWordsIn(selectedWords, Arrays.asList(hards[hardIndex]))) {
             System.out.println("Congrats, you got the Hards!");
+           hardW= true;
            // category = hardCategories[hardIndex];
         } else if (this.areWordsIn(selectedWords, Arrays.asList(experts[expertsIndex]))) {
             System.out.println("Congrats, you got the Expers!");
+          expW = true;
+
            // category = expertCategories[expertsIndex];
         }
-
+        if ((expW) && (hardW) && (medW) && (easyW)){
+            gamestatus.setText("You Won!");
+        }
         if (
             this.areWordsIn(selectedWords, Arrays.asList(easies[easyIndex])) || 
             this.areWordsIn(selectedWords, Arrays.asList(mediums[mediumIndex])) ||
             this.areWordsIn(selectedWords, Arrays.asList(hards[hardIndex])) ||
             this.areWordsIn(selectedWords, Arrays.asList(experts[expertsIndex]))
         ) {
+
             // Disable the buttons that are selected
             for(Node button: grid.getChildren()) {
                 String idStr = button.getId();
@@ -226,7 +240,7 @@ public class connectionscontroller {
                     }
                 }
             } 
-
+            clickedIndexes.clear();
             numPress = 0;
            // categoryLabel.setValue(category);
 
@@ -234,7 +248,7 @@ public class connectionscontroller {
             numLives -= 1;
             lives.setText("Lives: " + Integer.toString(numLives));
             if (numLives <= 0) {
-                System.out.println("GAME OVER");
+                gamestatus.setText("You Lost! GAME OVER!");
                 for(Node button: grid.getChildren()) {
                     String idStr = button.getId();
                     if (idStr != null) {
